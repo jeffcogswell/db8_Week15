@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Pet } from '../pet';
+import { PetsService } from '../pets.service';
 
 @Component({
 	selector: 'app-pet-list',
@@ -30,12 +31,8 @@ export class PetListComponent implements OnInit {
 	// component needed @Input.)
 	// For the list, I recommend <ng-container></ng-container>.
 
-	TheList: Pet[] = [
-		// After testing, let's remove the test data
-		// I'll leave here as a comment.
-		/*{ name: 'Muffin', species: 'cat', born: 1979 },
-		{ name: 'Donald Duck', species: 'cat', born: 2007}*/
-	];
+	// For this version we deleted the list, since it's
+	// now stored in a service.
 
 	// For the add:
 	//    We create the "form"
@@ -47,7 +44,18 @@ export class PetListComponent implements OnInit {
 	newSpecies: string = '';
 	newBorn: number = 0;
 
-	constructor() { }
+	// Let's have Angular give us the one instance
+	// of the pet list from the PetsService.
+	// We put it in the constructor.
+	// We now have an instance of PetsService
+	// stored in a public member variable
+	// called PetSrv. i.e. PetSrv is now a member
+	// of the class and we can access it through
+	// this.PetSrv. And we can get the list like so:
+	// this.PetSrv.get()
+	// This concept of adding it to our constructor
+	// is called "injection".
+	constructor(public PetSrv: PetsService) { }
 
 	ngOnInit(): void {
 	}
@@ -55,7 +63,7 @@ export class PetListComponent implements OnInit {
 	add() {
 		// Create a new Pet object and add it to the list
 		// Then clear out the input boxes
-		this.TheList.push(
+		this.PetSrv.get().push(
 			{
 				name: this.newName,
 				species: this.newSpecies,
@@ -68,10 +76,10 @@ export class PetListComponent implements OnInit {
 	}
 
 	deletePet(whichPet: Pet) {
-		for (let index: number = 0; index <= this.TheList.length; index++) {
-			if (this.TheList[index] == whichPet) {
+		for (let index: number = 0; index <= this.PetSrv.get().length; index++) {
+			if (this.PetSrv.get()[index] == whichPet) {
 				// Remove from list
-				this.TheList.splice(index, 1);
+				this.PetSrv.get().splice(index, 1);
 				return;
 			}
 		}
