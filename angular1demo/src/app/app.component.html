@@ -1,0 +1,18 @@
+Welcome to my app!
+
+{{ name }}
+
+<div *ngFor="let city of cities">
+	{{ city }}
+</div>
+
+<h2>Add new city:</h2>
+<input type="text" [(ngModel)]="newcity" />
+<button (click)="addCity()">Click me</button>
+
+<h1>More Cities</h1>
+<div *ngFor="let cityobj of morecities" style="margin-top:1em;">
+	Name: {{ cityobj.name }} <br />
+	State: {{ cityobj.state}} <br />
+	Population: {{ cityobj.population }}
+</div>
